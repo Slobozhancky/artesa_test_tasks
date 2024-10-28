@@ -1,66 +1,63 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Test Assignment for PHP Developer
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Task 1:
+Create an authentication system. It should contain a login page (username and password) and profile.
 
-## About Laravel
+### Functional requirements:
+- Login form should contain two text inputs, for username and password
+- If login was successful, user should be redirected to profile page
+- Profile page should contain text “Welcome {username}” and logout button 
+- When user click “logout” button, they should be redirected to login page 
+- In case of unsuccessful login, the login page should be shown with the error message: "Wrong credentials".
+- After successful login, the login page should not be available, the user should be redirected to the user page.
+- The user page should not be available if the login is not completed. The user should be redirected to the login page.
+- In case of 3 unsuccessful login attempts in a row, the system should be blocked for 5 minutes, and when trying to log in, the message should be displayed: "Try again in seconds"
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+### Requirements:
+- Store data in a text file, do not use a database.
+- It is advisable to use the MVC architecture when developing.
+- It is allowed to use a framework. It is advisable to use Yii2.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+---
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Task 2
+Products on the online store website are grouped into categories. Categories are organized into a tree structure with a nesting level of up to 4 inclusive. Significant attributes of a category: name. Significant attributes of a product: name, price, quantity in stock. One product can belong to several categories. In addition to categories, a product is also characterized by a set of tags (maximum 20 tags for all products)
 
-## Learning Laravel
+### Design a MySQL database structure:
+- To store a tree of categories, tags, products, and relationships between entities.
+- Fill the tables with test data. Create at least 100 products.
+- Write SQL queries to retrieve the following data:
+  - For a given list of products, get the names of all categories that contain this products;
+  - For a given category, get a list of offers for all products in this category and its child categories.
+  - For a given list of categories, get the number of product offers in each category;
+  - For a given list of categories, get the total number of unique product offers;
+  - For a given category, get its full path in the tree (breadcrumb).
+- Check and justify the optimality of the queries.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+---
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## Task 3
+Create CRUD API for products, categories and tags from Task 2. 
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### Requirements:
+- Any operations shouldn’t break the category tree
+- Read operations are public, Create, Update, Delete should be protected by auth (you can use the one you’ve created in Task 1)
+- It should be possible to add/remove product to category
+- It should be possible to add/remove tag to product
 
-## Laravel Sponsors
+---
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## Task 4
+Create javascript function that accept 1 parameter date in unixtime and return string time past since provided date
 
-### Premium Partners
+### Date display rules:
+- up to 5 minutes - just now
+- from 5 minutes to 1 hour - x minutes ago
+- from an hour to 8 hours - x hours y minutes ago with minutes rounded to 5
+- from 8 hours to a day - x hours ago with minutes rounded to hours according to the rules of arithmetic
+- from a day to a month - x days ago
+- more than a month - dd.mm.yyyy
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+---
 
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+The main goals are to see the way you work with data, how you can solve problems and pay attention to details. I know it's not a small assignment, and if there is something you don't know how to do, it's okay. Just show your best)
