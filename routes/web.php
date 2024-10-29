@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -19,6 +20,8 @@ Route::middleware('guest')->group(function (){
 Route::middleware('checkAuth')->group(function (){
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+    Route::get('products', [ProductController::class, 'index'])->name('products');
 });
 
 
