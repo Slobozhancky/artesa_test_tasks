@@ -22,6 +22,8 @@ class ProductController extends Controller
             $query->whereIn('product_id' , $productIds);
         })->get(['title']);
 
+        dump($categories);
+
         // ==========================================================================================
 
         // 2. For a given category, get a list of offers for all products in this category and its
@@ -84,7 +86,7 @@ class ProductController extends Controller
         $breadcrumbPath = $this->getCategoryBreadcrumb(3);
 
         foreach($breadcrumbPath as $category) {
-            echo $category->title . ' > ';
+            dump($category->title . ' > ');
         }
         // ==========================================================================================
 
@@ -103,7 +105,7 @@ class ProductController extends Controller
      */
     public function store (Request $request)
     {
-        //
+        dd($request->all());
     }
 
     /**
