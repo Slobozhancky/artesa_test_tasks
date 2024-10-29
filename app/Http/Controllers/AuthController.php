@@ -50,27 +50,25 @@ class AuthController extends Controller
             }
         }
 
-        // Логіка перевірки даних користувача
+
         if($fileService->verifyUser($username , $password)) {
             session(['user' => $username]);
-            return redirect()->route('profile'); // Успішний логін
+            return redirect()->route('profile');
         } else {
-            // Якщо аутентифікація не вдалася
-            $request->session()->increment('login_attempts' , 1); // Збільшення лічильника спроб
+            $request->session()->increment('login_attempts' , 1);
 
-            // Якщо досягнуто максимального числа спроб
             if($request->session()->get('login_attempts') >= 3) {
-                $request->session()->put('blocked_until' , now()->addMinutes(5)); // Блокування на 5 хвилин
-                return back()->withErrors(['loginError' => 'You are blocked for 5 minutes. Try again later.']);
+                $request->session()->put('blocked_until' , now()->addMinutes(5));
+                return back()->withErrors(['loginError' => 'Try again in seconds']);
             }
 
-            return back()->withErrors(['loginError' => 'Wrong credentials']); // Неправильні дані
+            return back()->withErrors(['loginError' => 'Wrong credentials']);
         }
     }
 
     public function logout (Request $request)
     {
-        $request->session()->flush(); // Очищення сесії
-        return redirect()->route('home'); // Перенаправлення на домашню сторінку
+        $request->session()->flush();
+        return redirect()->route('home');
     }
 }
