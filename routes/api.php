@@ -12,32 +12,46 @@ use Illuminate\Support\Facades\Route;
 //})->middleware('auth:sanctum');
 
 
-Route::middleware(['web'])->group(function (){
-    Route::post('/', [AuthController::class, 'login'])->withoutMiddleware
+Route::middleware(['web'])->group(function () {
+    Route::post('/' , [AuthController::class , 'login'])->withoutMiddleware
     (VerifyCsrfToken::class);
 
     // Categories ======================================================================================================
 
-    Route::get('/categories/{id}', [CategoryController::class, 'show']);
+    Route::get('/categories/{id}' , [CategoryController::class , 'show']);
 
-    Route::post('/categories', [CategoryController::class, 'store'])->withoutMiddleware
+    Route::post('/categories' , [CategoryController::class , 'store'])->withoutMiddleware
     (VerifyCsrfToken::class);
 
-    Route::put('/categories/{id}', [CategoryController::class, 'update'])->withoutMiddleware
+    Route::put('/categories/{id}' , [CategoryController::class , 'update'])->withoutMiddleware
     (VerifyCsrfToken::class);
 
-    Route::post('/categories/{id}/subcategories', [CategoryController::class, 'storeChildCategory'])->withoutMiddleware
+    Route::post('/categories/{id}/subcategories' , [CategoryController::class , 'storeChildCategory'])->withoutMiddleware
     (VerifyCsrfToken::class);
 
-    Route::delete('/categories/{id}', [CategoryController::class, 'destroy'])->withoutMiddleware
+    Route::delete('/categories/{id}' , [CategoryController::class , 'destroy'])->withoutMiddleware
     (VerifyCsrfToken::class);
-    Route::delete('/subcategories/{id}', [CategoryController::class, 'destroySubcategory'])->withoutMiddleware
+    Route::delete('/subcategories/{id}' , [CategoryController::class , 'destroySubcategory'])->withoutMiddleware
     (VerifyCsrfToken::class); // Видалити підкатегорію
 
     // ===================================================================================================================
 
-    Route::post('/products', [ProductController::class, 'store'])->withoutMiddleware
+    // Categories ======================================================================================================
+
+    Route::get('/products' , [ProductController::class , 'showAllProducts']);
+    Route::get('/products/{id}' , [ProductController::class , 'show']);
+
+    Route::post('/products' , [ProductController::class , 'store'])->withoutMiddleware
     (VerifyCsrfToken::class);
+
+    Route::put('/products/{id}' , [ProductController::class , 'update'])->withoutMiddleware
+    (VerifyCsrfToken::class);
+    Route::delete('/products/{id}' , [ProductController::class , 'destroy'])->withoutMiddleware
+    (VerifyCsrfToken::class);
+
+
+
+    // ===================================================================================================================
 
 });
 

@@ -92,52 +92,96 @@ class ProductController extends Controller
 
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create ()
+    public function update (Request $request , $id)
     {
-        //
+
+        $product = Product::find($id);
+
+        if (!$product) {
+            return response()->json([
+                'error' => 'Product not found.'
+            ], 404);
+        }
+
+        $request->validate([
+            'product_name' => 'required|string|max:255',
+            'product_price' => 'required|numeric|min:0',
+            'product_quantity' => 'nullable|integer|min:0',
+            'category_id' => 'nullable|exists:categories,id',
+        ]);
+
+        $product->update($request->only([
+            'product_name',
+            'product_price',
+            'product_quantity',
+            'category_id'
+        ]));
+
+        return response()->json($product->load('categories') , 200);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+
     public function store (Request $request)
     {
-        dd($request->all());
+        $request->validate([
+            'product_name' => 'required|string|max:255' ,
+            'product_price' => 'required|numeric|min:0' ,
+            'product_quantity' => 'nullable|numeric' ,
+            'category_ids' => 'array' ,
+            'category_ids.*' => 'exists:categories,id' ,
+        ]);
+
+        $product = Product::create([
+            'product_name' => $request->product_name ,
+            'product_price' => $request->product_price ,
+            'product_quantity' => $request->product_quantity ,
+        ]);
+
+        if($request->has('category_ids')) {
+            $product->categories()->attach($request->category_ids);
+        }
+
+        return response()->json($product->load('categories') , 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show (Product $product)
+    public function showAllProducts (Request $request)
     {
-        //
+        try {
+            $perPage = $request->input('per_page' , 20); // За замовчуванням 20 товарів на сторінку
+            $products = Product::paginate($perPage);
+            return response()->json($products , 200);
+        } catch(\Exception $e) {
+            return response()->json([
+                'error' => 'An error occurred while retrieving products.' ,
+                'message' => $e->getMessage() ,
+            ] , 500);
+        }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit (Product $product)
+    public function show ($id)
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update (Request $request , Product $product)
-    {
-        //
+        $product = Product::with('categories')->findOrFail($id);
+        return response()->json($product , 200);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy (Product $product)
+    public function destroy (Product $product , $id)
     {
-        //
+        $product = Product::find($id);
+
+        if( ! $product) {
+            return response()->json([
+                'error' => 'Product not found.'
+            ] , 404); // Повертаємо помилку 404, якщо товар не знайдено
+        }
+
+        $product->delete();
+
+        return response()->json([
+            'message' => 'Product deleted successfully.'
+        ] , 200);
     }
 
     function getCategoryBreadcrumb ($categoryId)
