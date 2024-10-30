@@ -7,59 +7,61 @@ use Illuminate\Http\Request;
 
 class TagController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function index ()
     {
-        //
+        $tags = Tag::all();
+        return response()->json($tags , 200);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function show ($id)
     {
-        //
+        $tag = Tag::find($id);
+
+        if( ! $tag) {
+            return response()->json(['error' => 'Tag not found.'] , 404);
+        }
+
+        return response()->json($tag , 200);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function store (Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255|unique:tags,name' ,
+        ]);
+
+        $tag = Tag::create(['name' => $request->name]);
+
+        return response()->json($tag , 201); // 201 Created
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Tag $tag)
+    public function update (Request $request , $id)
     {
-        //
+        $tag = Tag::find($id);
+
+        if( ! $tag) {
+            return response()->json(['error' => 'Tag not found.'] , 404);
+        }
+
+        $request->validate([
+            'name' => 'required|string|max:255|unique:tags,name,' . $tag->id ,
+        ]);
+
+        $tag->update(['name' => $request->name]);
+
+        return response()->json($tag , 200); // 200 OK
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Tag $tag)
+    public function destroy ($id)
     {
-        //
-    }
+        $tag = Tag::find($id);
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Tag $tag)
-    {
-        //
-    }
+        if( ! $tag) {
+            return response()->json(['error' => 'Tag not found.'] , 404);
+        }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Tag $tag)
-    {
-        //
+        $tag->delete();
+
+        return response()->json(['message' => 'Tag deleted successfully.'] , 200); // 200 OK
     }
 }

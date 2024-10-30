@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\TagController;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -34,9 +35,9 @@ Route::middleware(['web'])->group(function () {
     Route::delete('/subcategories/{id}' , [CategoryController::class , 'destroySubcategory'])->withoutMiddleware
     (VerifyCsrfToken::class); // Видалити підкатегорію
 
-    // ===================================================================================================================
+    // =================================================================================================================
 
-    // Categories ======================================================================================================
+    // Products ========================================================================================================
 
     Route::get('/products' , [ProductController::class , 'showAllProducts']);
     Route::get('/products/{id}' , [ProductController::class , 'show']);
@@ -49,9 +50,21 @@ Route::middleware(['web'])->group(function () {
     Route::delete('/products/{id}' , [ProductController::class , 'destroy'])->withoutMiddleware
     (VerifyCsrfToken::class);
 
+    // =================================================================================================================
 
+    // Tag =============================================================================================================
 
-    // ===================================================================================================================
+    Route::get('/tag' , [TagController::class , 'index']);
+    Route::get('/tag/{id}' , [TagController::class , 'show']);
 
+    Route::post('/tag' , [TagController::class , 'store'])->withoutMiddleware
+    (VerifyCsrfToken::class);
+
+    Route::put('/tag/{id}' , [TagController::class , 'update'])->withoutMiddleware
+    (VerifyCsrfToken::class);
+    Route::delete('/tag/{id}' , [TagController::class , 'destroy'])->withoutMiddleware
+    (VerifyCsrfToken::class);
+
+    // =================================================================================================================
 });
 
