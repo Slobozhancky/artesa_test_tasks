@@ -61,18 +61,6 @@ class CategoryController extends Controller
             ], 404); // 404 Not Found
         }
     }
-    public function showSubcategory($id)
-    {
-
-        try {
-            $category = Category::findOrFail($id);
-            return response()->json($category, 200);
-        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-            return response()->json([
-                'error' => "Category {$id} not found"
-            ], 404); // 404 Not Found
-        }
-    }
 
     public function update(Request $request, $id)
     {
