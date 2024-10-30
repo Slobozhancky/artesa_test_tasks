@@ -97,25 +97,26 @@ class ProductController extends Controller
 
         $product = Product::find($id);
 
-        if (!$product) {
+        if( ! $product) {
             return response()->json([
                 'error' => 'Product not found.'
-            ], 404);
+            ] , 404);
         }
 
         $request->validate([
-            'product_name' => 'required|string|max:255',
-            'product_price' => 'required|numeric|min:0',
-            'product_quantity' => 'nullable|integer|min:0',
-            'category_id' => 'nullable|exists:categories,id',
+            'product_name' => 'required|string|max:255' ,
+            'product_price' => 'required|numeric|min:0' ,
+            'product_quantity' => 'nullable|integer|min:0' ,
+            'category_id' => 'nullable|exists:categories,id' ,
         ]);
 
         $product->update($request->only([
-            'product_name',
-            'product_price',
-            'product_quantity',
+            'product_name' ,
+            'product_price' ,
+            'product_quantity' ,
             'category_id'
         ]));
+
 
         return response()->json($product->load('categories') , 200);
     }
